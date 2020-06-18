@@ -1,0 +1,56 @@
+metadata:
+  title: |
+    MIT CompLaw Report Rock Paper Scissors Demo
+  description: |
+    demonstration of using Blawx.com to automate a web interview
+    that answers questions about encoded rules - in this case the
+    rules to rock, paper, scissors.
+  authors:
+    - name: Jason Morris
+      organization: Round Table Law
+  revision_date: 2020-06-17
+---
+modules:
+  - docassemble.blawx.blawx3
+---
+objects:
+  - player1: Individual
+  - player2: Individual
+  - reasoner: Blawx
+---
+question: |
+  What is the first player's name?
+fields:
+  - First Name: player1.name.first
+  - Last Name: player1.name.last
+---
+question: |
+  What is the second player's name?
+fields:
+  - First Name: player2.name.first
+  - Last Name: player2.name.last
+---
+question: |
+  What did they throw?
+fields:
+  - ${ player1 }'s Throw: player1.text_throw
+    choices:
+      - Rock
+      - Paper
+      - Scissors
+  - ${ player2 }'s Throw: player2.text_throw
+    choices:
+      - Rock
+      - Paper
+      - Scissors
+---
+code: |
+  answer = reasoner.ask('mit_clr_rps.blawx')
+---
+mandatory: True
+question: All Done!
+subquestion: |
+  You told me ${ player1 } threw ${ player1.text_throw }, and
+  ${ player2 } threw ${ player2.text_throw }.
+
+  I asked Blawx.com to tell me who won, and it said ${ value(answer['answers']['1']['instanceName']) }.
